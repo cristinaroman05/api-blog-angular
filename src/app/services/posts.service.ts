@@ -13,13 +13,17 @@ export class PostsService {
     return this.arrPosts;
   }
   getById(id: number): IPost | undefined {
-    return this.arrPosts.find((post) => post.id === id);
+    const post = this.arrPosts.find((post) => post.id === id);
+    if (!post) {
+      console.error(`No se encontró un post con el ID: ${id}`);
+      return undefined;
+    }
+    return post;
   }
   insert(newPost: IPost) {
     this.arrPosts.push(newPost);
     newPost.id = this.id;
     this.id++;
-    console.log('Nuevo post agregado:', newPost);
   }
   getCategories(): ICategory[] {
     const categories = Array.from(
@@ -30,16 +34,16 @@ export class PostsService {
 
     return categories;
   }
-  getAllBySearch(title: String, categoryId: number): IPost[] {
-    if (title !== '') {
-      const resultSearch = this.arrPosts.filter(
-        (post) =>
-          post.title.toLowerCase().includes(title.toLowerCase()) &&
-          post.category.id === categoryId
-      );
-      return resultSearch;
-    } else {
-      return this.getAll();
-    }
+  getAllBySearch(title?: string, categoryId?: number): IPost[] {
+    return this.arrPosts.filter((post) => {
+      const matchesTitle = title
+        ? post.title.toLowerCase().includes(title.toLowerCase())
+        : true;
+      const matchesCategory = categoryId
+        ? post.category.id === categoryId
+        : true;
+
+      return matchesTitle && matchesCategory;
+    });
   }
 }

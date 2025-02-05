@@ -1,5 +1,5 @@
-<div class="row mt-5">
-  <div class="col-12 col-lg-6 offset-0 offset-lg-3">
+<div class="row m-5">
+  <div class="col-12 col-lg-6 offset-xs-0 offset-lg-3">
     <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label class="form-label">Título</label>
@@ -9,6 +9,11 @@
           formControlName="title"
           placeholder="Introduce un título..."
         />
+        @if(checkErrorField('title', 'required')){
+        <p class="error">El campo es obligatorio</p>
+        } @if(checkErrorField('title', 'minlength')){
+        <p class="error">El campo tiene una longitud minima de 10 caracteres</p>
+        }
       </div>
       <div>
         <label class="form-label">Texto</label>
@@ -18,6 +23,11 @@
           formControlName="text"
           placeholder="Introduce un texto..."
         />
+        @if(checkErrorField('text', 'required')){
+        <p class="error">El campo es obligatorio</p>
+        } @if(checkErrorField('text', 'minlength')){
+        <p class="error">El campo tiene una longitud minima de 20 caracteres</p>
+        }
       </div>
       <div>
         <label class="form-label">Autor</label>
@@ -27,6 +37,11 @@
           formControlName="author"
           placeholder="Introduce un autor..."
         />
+        @if(checkErrorField('author', 'required')){
+        <p class="error">El campo es obligatorio</p>
+        } @if(checkErrorField('author', 'minlength')){
+        <p class="error">El campo tiene una longitud minima de 4 caracteres</p>
+        }
       </div>
       <div>
         <label class="form-label">Imagen</label>
@@ -36,6 +51,11 @@
           formControlName="image"
           placeholder="Introduce una url de imagen..."
         />
+        @if(checkErrorField('image', 'imageValidator')){
+        <p class="error">
+          {{postForm.get('image')?.errors?.['imageValidator']}}
+        </p>
+        }
       </div>
       <div>
         <label>Categoría</label>
@@ -46,12 +66,23 @@
           <option [value]="category.name">{{ category.name }}</option>
           }
         </select>
+        @if(checkErrorField('category', 'required')){
+        <p class="error">Tienes que seleccionar una categoría</p>
+        }
       </div>
       <div>
         <label class="form-label">Fecha</label>
         <input type="date" class="form-control" formControlName="date" />
+        @if(checkErrorField('date', 'required')){
+        <p class="error">Selecciona una fecha</p>
+        }
       </div>
-      <input class="btn btn-warning mt-3" type="submit" value="Enviar" />
+      <input
+        class="btn btn-warning mt-3"
+        type="submit"
+        value="Enviar"
+        [disabled]="postForm.invalid"
+      />
     </form>
   </div>
 </div>

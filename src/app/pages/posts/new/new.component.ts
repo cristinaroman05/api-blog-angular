@@ -1,9 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IPost } from '../../../interfaces/ipost.interface';
 import { PostsService } from '../../../services/posts.service';
 import { ICategory } from '../../../interfaces/icategory.interface';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-new',
   imports: [ReactiveFormsModule],
@@ -17,12 +23,21 @@ export class NewComponent {
   categoriesPost: ICategory[] = [];
   constructor() {
     this.postForm = new FormGroup({
-      title: new FormControl(),
-      text: new FormControl(),
-      author: new FormControl(),
-      image: new FormControl(),
-      category: new FormControl(),
-      date: new FormControl(),
+      title: new FormControl('', [
+        Validators.minLength(10),
+        Validators.required,
+      ]),
+      text: new FormControl('', [
+        Validators.minLength(20),
+        Validators.required,
+      ]),
+      author: new FormControl('', [
+        Validators.minLength(4),
+        Validators.required,
+      ]),
+      image: new FormControl('', [this.imageValidator, Validators.required]),
+      category: new FormControl('', [Validators.required]),
+      date: new FormControl('', [Validators.required]),
     });
   }
   ngOnInit() {
@@ -32,6 +47,36 @@ export class NewComponent {
   onSubmit() {
     const newPost: IPost = this.postForm.value;
     this.postsService.insert(newPost);
-    console.log(this.postsData);
+    if (this.postForm.valid) {
+      Swal.fire({
+        icon: 'success',
+        title: '¡Post creado!',
+        text: 'Tu publicación se ha agregado correctamente.',
+        confirmButtonText: 'Aceptar',
+      });
+      this.postForm.reset();
+    }
+  }
+  imageValidator(controlName: AbstractControl): any {
+    const imageUrl = controlName.value;
+    const imageUrlRegex =
+      /^https:\/\/images\.pexels\.com\/photos\/\d+\/pexels-photo-\d+(\.jpeg|\.jpg|\.png)\?.*$/;
+
+    if (!imageUrlRegex.test(imageUrl)) {
+      return {
+        imageValidator:
+          'Formato de url incorrecta, la url debe ser una imagen de pexels.com',
+      };
+    }
+    return null;
+  }
+  checkErrorField(field: string, error: string): boolean {
+    if (
+      this.postForm.get(field)?.hasError(error) &&
+      this.postForm.get(field)?.touched
+    ) {
+      return true;
+    }
+    return false;
   }
 }
