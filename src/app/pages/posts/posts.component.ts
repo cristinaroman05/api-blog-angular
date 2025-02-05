@@ -27,6 +27,5 @@ export class PostsComponent {
       event.title,
       event.categoryId
     );
-    console.log(this.arrPosts);
   }
 }

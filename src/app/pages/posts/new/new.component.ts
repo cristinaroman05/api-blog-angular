@@ -60,11 +60,12 @@ export class NewComponent {
   imageValidator(controlName: AbstractControl): any {
     const imageUrl = controlName.value;
     const imageUrlRegex =
-      /^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp|svg|bmp|tiff))$/i;
+      /^https:\/\/images\.pexels\.com\/photos\/\d+\/pexels-photo-\d+(\.jpeg|\.jpg|\.png)\?.*$/;
+
     if (!imageUrlRegex.test(imageUrl)) {
       return {
         imageValidator:
-          'Formato de url incorrecta, la url debe comenzar por http:// y terminar en un formato de imagen jpg, png...',
+          'Formato de url incorrecta, la url debe ser una imagen de pexels.com',
       };
     }
     return null;
