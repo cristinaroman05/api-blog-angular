@@ -13,11 +13,14 @@ import { SearchComponent } from '../../components/search/search.component';
 export class PostsComponent {
   arrPosts: IPost[] = [];
   postsService = inject(PostsService);
+
   ngOnInit() {
     this.arrPosts = this.postsService.getAll();
   }
-  ngDoChanges() {
-    this.arrPosts = this.postsService.getAll();
+  inputChange(event: boolean) {
+    if (event === true) {
+      this.arrPosts = this.postsService.getAll();
+    }
   }
   search(event: { title: string; categoryId: number }) {
     this.arrPosts = this.postsService.getAllBySearch(

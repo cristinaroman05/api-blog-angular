@@ -1,10 +1,18 @@
 <section class="m-5">
-  <app-search (searchEmitted)="search($event)"></app-search>
+  <app-search
+    (searchEmitted)="search($event)"
+    (isInputEmpty)="inputChange($event)"
+  ></app-search>
+
   <div class="row g-4">
     @for(post of arrPosts; track post.id) {
     <div class="col-12 col-md-6 col-lg-4">
       <app-card-post [postCard]="post"></app-card-post>
     </div>
+    }@empty {
+    <h2 class="text-center">
+      No se han encontrado post con los filtros de búsqueda
+    </h2>
     }
   </div>
 </section>

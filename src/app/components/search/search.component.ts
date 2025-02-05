@@ -14,9 +14,10 @@ export class SearchComponent {
   postsService = inject(PostsService);
   formSearch: FormGroup;
   categories!: ICategory[];
-
+  inputVacio: boolean = false;
   @Output() searchEmitted: EventEmitter<{ title: string; categoryId: number }> =
     new EventEmitter();
+  @Output() isInputEmpty: EventEmitter<boolean> = new EventEmitter();
   constructor() {
     this.formSearch = new FormGroup({
       title: new FormControl(),
@@ -25,6 +26,10 @@ export class SearchComponent {
   }
   ngOnInit() {
     this.categories = this.postsService.getCategories();
+  }
+  inputEmpty(event: any) {
+    this.inputVacio = event.target.value.trim().length === 0;
+    this.isInputEmpty.emit(this.inputVacio);
   }
   onSubmit() {
     const searchTitle = this.formSearch.value.title || '';

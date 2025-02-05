@@ -13,7 +13,12 @@ export class PostsService {
     return this.arrPosts;
   }
   getById(id: number): IPost | undefined {
-    return this.arrPosts.find((post) => post.id === id);
+    const post = this.arrPosts.find((post) => post.id === id);
+    if (!post) {
+      console.error(`No se encontró un post con el ID: ${id}`);
+      return undefined;
+    }
+    return post;
   }
   insert(newPost: IPost) {
     this.arrPosts.push(newPost);
