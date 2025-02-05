@@ -1,0 +1,20 @@
+<form
+  class="form-control d-flex mb-3"
+  [formGroup]="formSearch"
+  (ngSubmit)="onSubmit()"
+>
+  <input
+    class="form-control"
+    type="text"
+    placeholder="Introduce un título"
+    formControlName="title"
+  />
+  <select class="form-select" formControlName="name">
+    <option value="">Selecciona una categoría</option>
+    @for(category of categories; track category.id){
+
+    <option [value]="category.id">{{ category.name }}</option>
+    }
+  </select>
+  <input class="btn btn-warning ms-3" type="submit" value="Buscar" />
+</form>
