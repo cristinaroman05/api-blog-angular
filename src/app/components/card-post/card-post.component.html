@@ -1,0 +1,17 @@
+<article class="card shadow-sm h-100 text-center">
+  <figure class="figure m-0">
+    <img
+      [src]="postCard.image"
+      [alt]="postCard.title"
+      class="card-img-top figure-img"
+    />
+  </figure>
+  <div class="card-body d-flex flex-column">
+    <h3
+      class="card-title fs-5 fw-bold poin"
+      [routerLink]="['/post', postCard.id]"
+    >
+      {{ postCard.title }}
+    </h3>
+  </div>
+</article>

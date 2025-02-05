@@ -1,0 +1,10 @@
+<section class="m-5">
+  <app-search (searchEmitted)="search($event)"></app-search>
+  <div class="row g-4">
+    @for(post of arrPosts; track post.id) {
+    <div class="col-12 col-md-6 col-lg-4">
+      <app-card-post [postCard]="post"></app-card-post>
+    </div>
+    }
+  </div>
+</section>
