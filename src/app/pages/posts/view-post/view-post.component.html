@@ -1,0 +1,15 @@
+<section class="container mt-5">
+  <article class="card shadow-lg">
+    <figure class="mt-5">
+      <img [src]="postData.image" [alt]="postData.title" class="card-img-top" />
+    </figure>
+    <div class="card-body">
+      <h1 class="card-title fw-bold">{{ postData.title }}</h1>
+      <p class="text-muted">
+        Por <strong>{{ postData.author }}</strong> - {{ postData.date }}
+      </p>
+      <span class="badge bg-primary">{{ postData.category.title }}</span>
+      <p class="card-text mt-3">{{ postData.text }}</p>
+    </div>
+  </article>
+</section>
